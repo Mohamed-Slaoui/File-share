@@ -15,6 +15,15 @@ class File extends Model
     ];
 
     public function tags(){
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class,'file_tag', 'file__id', 'tag_id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
 }

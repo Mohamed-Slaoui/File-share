@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -9,9 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function addUser(UserRequest $request){
+    public function addUser(UserRegisterRequest $request){
         User::create([
             'email' => $request->email,
+            'role_id'=> $request->role_id,
             'password' => $request->password,
         ]);
         return redirect()->route('home');

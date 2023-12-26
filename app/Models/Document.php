@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Document extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name'
-    ];
 
-    public function files(){
-        return $this->belongsToMany(File::class);
-    }
+    protected $fillable = [
+        'title',
+        'description',
+        'downloads',
+        'path',
+        'user_id',
+        'category_id',
+    ];
 }

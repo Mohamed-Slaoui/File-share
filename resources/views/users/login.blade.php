@@ -11,9 +11,13 @@
 
 <body>
     @include('components.navbar')
+    <div class="flex flex-col justify-center items-center flex-1 h-[70vh]">
+        
+        @if($errors->has('error'))
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $errors->first('error') }}</p>
+        @endif
 
-    <div class="flex justify-center items-center flex-1 h-[70vh]">
-        <form action="{{ route('logUser') }}" method="POST" class="w-96 h-80 border flex flex-col p-5 rounded-lg">
+        <form action="{{ route('logUser') }}" method="POST" class="w-96 h-72 border flex flex-col p-5 rounded-lg">
             @csrf
             <div class="mb-5">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your

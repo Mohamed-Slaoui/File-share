@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DocumentRequest;
+use App\Models\Category;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,8 @@ class DocumentController extends Controller
 {
     public function index(){
         $docs = Document::all();
-        return view('docs.index',compact('docs'));
+        $recents = Document::with('user','category')->orderBy('created_at', 'desc')->take(4)->get();
+        return view('docs.index',compact('docs','recents'));
     }
 
     public function upload(DocumentRequest $request){
@@ -42,5 +44,17 @@ class DocumentController extends Controller
         // dd($file->downloads);
 
         return response()->download(storage_path("app/public/{$file->path}"));
+    }
+
+    public function explore($id){
+        $doc = Document::with('user','category')->find($id);
+        
+        return view('docs.exploreDoc',compact('doc'));
+    }
+
+    public function filterByCategory($id){
+        $docs = Document::where('category_id',$id)->get();
+
+        return view('docs.index',compact('docs'));
     }
 }

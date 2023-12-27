@@ -12,7 +12,7 @@
 <body>
     @include('components.navbar')
     <div class="flex flex-col justify-center items-center flex-1 h-[70vh]">
-        
+        <h1 class="text-3xl font-bold p-3">Login</h1>
         @if($errors->has('error'))
             <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $errors->first('error') }}</p>
         @endif

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[DocumentController::class, 'index'])->name('home');
 
-
 Route::prefix('doc')->controller(DocumentController::class)->group(function(){
     Route::get("/","index")->name("home");
     Route::get("/docForm",function(){
@@ -21,10 +20,18 @@ Route::prefix('doc')->controller(DocumentController::class)->group(function(){
     Route::post('/upload','upload')->name('upload');
 
     Route::post('/download/{id}','download')->name('download');
+
+    Route::get('/explore/{id}','explore')->name('explore');
+
+    Route::get('/category/{id}','filterByCategory')->name('filterByCategory');
 });
+
+
+
 
 Route::prefix('user')->controller(UserController::class)->group(function(){
 
+    // --=-------Authentification---------------------
     Route::get("/register",function(){
         return view('users.register');
     })->name("register");
@@ -37,5 +44,13 @@ Route::prefix('user')->controller(UserController::class)->group(function(){
     Route::post("/logUser","logUser")->name("logUser");
 
     Route::get("/logout","logout")->name("logout");
+
+    //------------------------Pages----------------------------------
+    Route::middleware('auth')->group(function(){
+
+        Route::get('/show','showUsers')->name("users");
+        Route::get('/my-files/{id}','myFiles')->name('myFiles');
+    });
+
 });
 

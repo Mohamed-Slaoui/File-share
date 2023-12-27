@@ -35,4 +35,16 @@ class UserController extends Controller
         Auth::logout();
         return redirect()->route('home');
     }
+
+    // --------------pages--------------------
+
+    public function showUsers(){
+        $users = User::all();
+        return view('users.usersPage',compact('users'));
+    }
+
+    public function myFiles($id){
+        $docs = User::with('documents')->find($id);
+        return view('docs.myFiles',compact('docs'));
+    }
 }

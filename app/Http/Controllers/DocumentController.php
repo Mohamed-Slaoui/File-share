@@ -6,6 +6,7 @@ use App\Http\Requests\DocumentRequest;
 use App\Models\Category;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
@@ -39,7 +40,7 @@ class DocumentController extends Controller
     public function download($id){
         
         $file = Document::find($id);
-        $file->downloads++;
+        $file->downloads += 1 ;
         $file->save();
         // dd($file->downloads);
 
@@ -57,4 +58,36 @@ class DocumentController extends Controller
 
         return view('docs.index',compact('docs'));
     }
+
+    public function edit($id){
+        $doc = Document::find($id);
+        return view('docs.docForm',compact('doc'));
+    }
+
+    public function update(DocumentRequest $request,$id){
+        $doc = Document::find($id);
+        $valide = $request->validated();
+        if ($request->hasFile('path')) {
+            $newFile = $request->file('path')->store('files', 'public');
+            $doc->path = $newFile;
+        }
+
+        $doc->update($valide);
+
+        return redirect()->route('myFiles')->with([
+            'success' => 'document has been successfully updated'
+        ]);
+        
+    }
+
+    public function delete($id){
+        $doc = Document::find($id);
+
+        $doc->delete();
+        return redirect()->route('myFiles',Auth::user()->id)->with([
+            'success' => 'document has been successfully deleted'
+        ]);
+    }
+
+
 }

@@ -6,14 +6,16 @@
 
 @section('content')
     <div class="px-1 flex justify-center items-center flex-1">
-        <form action="{{ route('upload') }}" method="POST" class="w-96 h-fit border flex flex-col p-5 rounded-lg" enctype="multipart/form-data">
+        <form action="{{ isset($doc) ? route('update',$doc->id) : route('upload') }}" method="POST" class="w-96 h-fit border flex flex-col p-5 rounded-lg" enctype="multipart/form-data">
             @csrf
-
+            @if (isset($doc))
+                @method('PUT')
+            @endif
             <div class="mb-5">
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
                 <input type="text" name="title"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="title" value="{{ old('title') }}">
+                    placeholder="title" value="{{ isset($doc) ? $doc->title : old('title') }}">
 
                 @error('title')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!
@@ -26,7 +28,7 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
 
                 <textarea name="description" id="desc" cols="30" rows="10"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('description') }}</textarea>
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ isset($doc) ? $doc->description : old('description') }}</textarea>
 
                 @error('description')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!
@@ -40,7 +42,10 @@
                     class="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option>--select category---</option>
                     @foreach ($cats as $c)
-                        <option value="{{ $c->id }}">{{ $c->name }}</option>
+                        <option value="{{ $c->id }}" 
+                            {{ isset($doc) ? ($c->id == $doc->category_id ? 'selected' : '' ) : ''}} >
+                            {{ $c->name }}
+                        </option>
                     @endforeach
                 </select>
 
@@ -55,7 +60,8 @@
                     file</label>
                 <input
                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    id="file_input" name="path" type="file">
+                    id="file_input" name="path" type="file"
+                    >
 
 
                 @error('path')

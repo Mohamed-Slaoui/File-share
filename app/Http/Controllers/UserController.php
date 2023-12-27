@@ -23,7 +23,7 @@ class UserController extends Controller
         $valide = $request->validated();
 
         if (Auth::attempt($valide)) {
-            return redirect()->route('home');
+            return redirect()->intended(route('home'));
         }else{
             return redirect()->route('login')->withErrors([
                 'error' => 'email or password is invalid'
@@ -43,8 +43,15 @@ class UserController extends Controller
         return view('users.usersPage',compact('users'));
     }
 
-    public function myFiles($id){
-        $docs = User::with('documents')->find($id);
-        return view('docs.myFiles',compact('docs'));
+    public function myFiles($id=null){
+
+        if ($id !== null) {
+            
+            $docs = User::with('documents')->findOrFail($id);
+            return view('docs.myFiles', compact('docs'));
+        } else {
+            $docs = User::with('documents')->get();
+            return view('docs.adminFiles', compact('docs'));
+        }
     }
 }

@@ -19,6 +19,12 @@ Route::prefix('doc')->controller(DocumentController::class)->group(function(){
 
     Route::post('/upload','upload')->name('upload');
 
+    Route::get('/edit/{id}','edit')->name('edit');
+
+    Route::put('/update/{id}','update')->name('update');
+
+    Route::delete('/delete/{id}','delete')->name('delete');
+
     Route::post('/download/{id}','download')->name('download');
 
     Route::get('/explore/{id}','explore')->name('explore');
@@ -49,7 +55,8 @@ Route::prefix('user')->controller(UserController::class)->group(function(){
     Route::middleware('auth')->group(function(){
 
         Route::get('/show','showUsers')->name("users");
-        Route::get('/my-files/{id}','myFiles')->name('myFiles');
+        Route::get('/my-files/{id?}','myFiles')->name('myFiles');
+        Route::get('/my-files','myFiles')->name('adminFiles');
     });
 
 });

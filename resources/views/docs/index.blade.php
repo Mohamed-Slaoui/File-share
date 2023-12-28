@@ -9,7 +9,7 @@
         @if (session('success'))
             <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
                 role="alert">
-                <span class="font-medium">Success alert!</span>{{ session('success') }}
+                {{ session('success') }}
             </div>
         @endif
         <h1 class="text-3xl text-gray-600 font-bold p-4">All Documents</h1>

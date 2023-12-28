@@ -84,7 +84,7 @@ class DocumentController extends Controller
         $doc = Document::find($id);
 
         $doc->delete();
-        return redirect()->route('myFiles',Auth::user()->id)->with([
+        return redirect()->back()->with([
             'success' => 'document has been successfully deleted'
         ]);
     }

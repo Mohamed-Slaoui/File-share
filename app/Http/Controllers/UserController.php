@@ -39,7 +39,7 @@ class UserController extends Controller
     // --------------pages--------------------
 
     public function showUsers(){
-        $users = User::all();
+        $users = User::where('role_id',2)->get();
         return view('users.usersPage',compact('users'));
     }
 
@@ -54,4 +54,14 @@ class UserController extends Controller
             return view('docs.adminFiles', compact('docs'));
         }
     }
+
+    public function deleteUser($id){
+        $user = User::find($id);
+
+        $user->delete();
+        return redirect()->back()->with([
+            'success' => 'user has been successfully deleted'
+        ]);
+    }
+
 }

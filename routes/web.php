@@ -57,7 +57,10 @@ Route::prefix('user')->controller(UserController::class)->group(function(){
         Route::get('/show','showUsers')->name("users");
         Route::get('/my-files/{id?}','myFiles')->name('myFiles');
         Route::get('/my-files','myFiles')->name('adminFiles');
+
+        Route::delete('delete_user/{id}', 'deleteUser')->name('deleteUser');
     });
+
 
 });
 

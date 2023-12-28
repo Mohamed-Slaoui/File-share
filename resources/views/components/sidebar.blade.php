@@ -41,7 +41,7 @@
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <img src="{{ asset('icons/user.svg') }}" class="w-5 opacity-45 group-hover:opacity-100"
                         alt="">
-                        <span class="flex-1 ms-3 whitespace-nowrap">My Files</span>
+                        <span class="flex-1 ms-3 whitespace-nowrap">{{ Auth::user()->role_id == 1 ? "Manage Files" : "My Files" }}</span>
                     </a>
                 </li>
             @endauth
